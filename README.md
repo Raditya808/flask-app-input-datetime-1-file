@@ -62,5 +62,4 @@ Open your browser at: http://127.0.0.1:5000
 ## License
 This is a small demo — use it however you like. Add a license file if you want formal terms.
 
-## Fyi 
-iam sucks at front end 
+
