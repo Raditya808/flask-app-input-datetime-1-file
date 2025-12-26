@@ -145,9 +145,15 @@ button:hover {{
 <button>
 <a href="{url_for('index2_hasil_jarak')}">Cek Jarak Tanggal Lahir Anda</a>
 </button>
+<br>
 Atau
 <button>
 <a href="{url_for('hasil_umur_user')}">Cek Berapa Umur Anda Sekarang</a>
+</button>
+<br>
+Source Code Dev Dan Source Code Datetime
+<button>
+<a href="{url_for('source_code')}">Source Code</a>
 </button>
 
     </body>
@@ -155,24 +161,26 @@ Atau
 
   """
 
-# INPUT TANGGAL LAHIR LALU HASIL NYA AKAN KE RUTE HASIL_JARAK_INPUT
+# INPUT TANGGAL LAHIR LALU HASIL NYA AKAN KE FUNCTION LALU MENGHITUNG JARAK ANTARA TANGGAL LAHIR DAN TANGGAL HARI INI YANG AKAN DI KIRIM KE FUNCTION HASIL_JARAK_INPUT 
 @app.route('/index2',methods=["GET","POST"])
 def index2_hasil_jarak():
         waktu_sekarang = dt.date.today()
         if request.method == 'POST':
-            tahun = int(request.form['Tahun']) 
-            bulan = int(request.form['Bulan'])
-            tanggal = int(request.form['Tanggal'])
+            Tahun = int(request.form['Tahun']) 
+            Bulan = int(request.form['Bulan'])
+            Tanggal = int(request.form['Tanggal'])
 
-            full_data = dt.date(tahun,bulan,tanggal) 
+            full_data = dt.date(Tahun,Bulan,Tanggal) 
             data_jarak = waktu_sekarang - full_data
-            return redirect(url_for("hasil_jarak_input",data_jarak=data_jarak,tahun=tahun,bulan=bulan,tanggal=tanggal,waktu_sekarang=waktu_sekarang))
-            # mengirim data_jarak,tahun,bulan,tanggal,waktu_sekarang ke rute hasil_jarak beserta data lahir 
+            return redirect(url_for("hasil_jarak_input",Tahun=Tahun,Bulan=Bulan,Tanggal=Tanggal,full_data=full_data,data_jarak=data_jarak))
+            # mengirim data_jarak,tahun,bulan,tanggal,waktu_sekarang ke function hasil_jarak_input beserta data lahir 
         
+
+        # Tampilan Dari index2 untuk menginput tanggal jarak lahir yang akan di kirim ke function hasil_jarak_input
         return f"""
     <!DOCTYPE html>
     <html>
-    <head><title>Input Tanggal Lahir</title></head>
+    <head><title>Input Jarak Tanggal Lahir</title></head>
     
     <style type="text/css">
      :root {{
@@ -368,6 +376,10 @@ button a {{
      <hr>
      <button>
      <a href="{url_for('hasil_umur_user')}">Cek Berapa Umur Anda Sekarang</a>
+         <button>
+    <a href="{url_for('waktu')}">Kembali Ke Menu Awal?</a>
+    </button>
+
      </button>
     </form>
     </body>
@@ -376,18 +388,20 @@ button a {{
 
 
 
-# HASIL JARAK TANGGAL LAHIR HARI INI DAN TANGGAL HARI INI          
+# HASIL JARAK TANGGAL LAHIR HARI INI DAN TANGGAL HARI INI DARI SETELAH INPUT index2_hasil_jarak        
 @app.route('/hasil_jarak')
-def hasil_jarak_input():
-   Tahun =  request.args.get('tahun') # hasil data dari rute index2 
-   Bulan =  request.args.get('bulan') # ini 
-   Tanggal =  request.args.get('tanggal') # dan ini juga
-   Data_jarak = request.args.get('data_jarak') # dan ini dari index2 
+def hasil_jarak_input(): # function hasil_jarak_input dari index2_hasil_jarak 
+   Tahun =  request.args.get('Tahun') # menerima parameter dari index2_hasil_jarak dari Tahun  
+   Bulan =  request.args.get('Bulan') # menerima parameter dari index2_hasil_jarak dari Bulan 
+   Tanggal =  request.args.get('Tanggal') # menerima parameter dari index2_hasil_jarak Tanggal
+   Data_jarak = request.args.get('data_jarak') # menerima parameter dari index2_hasil_jarak data_jarak
+
+   # Tampilan hasil_jarak_input dari index2
    return f"""
     <!DOCTYPE html>
     <html>
     <head>
-    <title>Hasil Input Tanggal Lahir</title>
+    <title>Hasil Input Jarak Tanggal Lahir</title>
     <style type="text/css">
     
     :root {{
@@ -592,12 +606,12 @@ def hasil_umur_user():
         full_data = dt.date(tahun,bulan,tanggal)
         jarak = hari_ini - full_data
         umur_anda = jarak.days // 365
-        return redirect(url_for('Umur_user',umur_anda=umur_anda))  # mengirim data umur_anda ke rute hasil_umur
+        return redirect(url_for('Umur_user',umur_anda=umur_anda))  # mengirim data umur_anda ke function hasil_umur_user
     return f""" 
         <!DOCTYPE html>
         <html>
         <head>
-        <title>Hasil Umur Anda</title>
+        <title>Input Umur Anda</title>
       <style type="text/css">
      :root {{
     --clr-light-gray: #f7f7f7;
@@ -997,6 +1011,155 @@ button a {{
         </body>
         </html>
     """
+
+
+# RUTE SOURCE CODE 
+@app.route("/src")
+def source_code():
+    return f"""
+
+
+
+<!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <title>Source Code</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        :root {{
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #0f172a; /* Slate Dark */
+            --border: #e2e8f0;
+        }}
+
+        body {{
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }}
+
+        .container {{
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border);
+        }}
+
+        h2 {{
+            margin: 0 0 1.5rem 0;
+            font-weight: 600;
+            font-size: 1.5rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+            color: var(--accent);
+        }}
+
+        ul {{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }}
+
+        li {{
+            margin-bottom: 1rem;
+        }}
+
+        a {{
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 400;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+
+        a:hover {{
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+        }}
+
+        /* Subtle indicator icon using CSS */
+        a::after {{
+            content: '→';
+            opacity: 0.5;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+        }}
+
+        a:hover::after {{
+            transform: translateX(4px);
+            opacity: 1;
+        }}
+
+        footer {{
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }}
+    </style>
+    
+    <body>
+    <footer>Source Raditya east 2025</footer>
+        <div class="container">
+            <h2>Source Code</h2>
+            <ul>
+                <li>
+                    <a href="https://github.com/kelasterbuka/Python3.x_Dasar_Programming/blob/master/Episode%2020%20-%20Date%20and%20Time%20(Latihan)/Main.py" target="_blank">
+                        Kelas Terbuka Repository
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/Raditya808/flask-app-input-datetime-1-file" target="_blank">
+                        Raditya Repository
+                    </a>
+                </li>
+            </ul>
+            <ul>
+            <a href="{url_for(('waktu'))}">Kembali Ke Menu Awal</a>
+            </li>
+            </li>
+        </div>
+
+        <script>
+            // Efek interaksi sederhana: Fade in saat load
+            document.addEventListener('DOMContentLoaded', () => {{
+                const container = document.querySelector('.container');
+                container.style.opacity = '0';
+                container.style.transition = 'opacity 0.8s ease';
+                setTimeout(() => {{
+                    container.style.opacity = '1';
+                }}, 100);
+            }});
+        </script>
+
+"""
 
 
 if __name__=="__main__":
