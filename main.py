@@ -1147,18 +1147,6 @@ def source_code():
             </li>
         </div>
 
-        <script>
-            // Efek interaksi sederhana: Fade in saat load
-            document.addEventListener('DOMContentLoaded', () => {{
-                const container = document.querySelector('.container');
-                container.style.opacity = '0';
-                container.style.transition = 'opacity 0.8s ease';
-                setTimeout(() => {{
-                    container.style.opacity = '1';
-                }}, 100);
-            }});
-        </script>
-
 """
 
 
